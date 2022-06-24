@@ -1,4 +1,7 @@
-.PHONY: run, brunner
+.PHONY: run, brunner, itest
+
+device:=chrome
+target:=json_list
 
 run:
 	@echo "default run command will run on web platform"
@@ -16,3 +19,9 @@ endif
 
 brunner:
 	@flutter pub run build_runner build --delete-conflicting-outputs
+
+itest:
+	@flutter drive \
+	--driver=test_driver/integration_test.dart \
+	--target=integration_test/$(target)_test.dart \
+	-d $(device)

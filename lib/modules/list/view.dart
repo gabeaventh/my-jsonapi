@@ -7,6 +7,7 @@ import 'package:jsonapi/modules/list/bloc/json_list_bloc.dart';
 import 'package:jsonapi/modules/list/components/list_items.dart';
 import 'package:jsonapi/modules/list/components/search_bar.dart';
 import 'package:jsonapi/modules/list/initiator.dart';
+import 'package:jsonapi/modules/list/keys.dart';
 
 class JsonListView extends StatefulHookConsumerWidget {
   const JsonListView({Key? key}) : super(key: key);
@@ -38,12 +39,16 @@ class _JsonListViewState extends ConsumerState<JsonListView> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text('MY JSON API APP'),
+        title: Text(
+          'MY JSON API APP',
+          key: JSON_LIST_KEY,
+        ),
         automaticallyImplyLeading: false,
         toolbarHeight: 110,
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(kToolbarHeight),
           child: SearchBar(
+            key: JSON_LIST_SEARCH_KEY,
             hintText: 'Search for Post',
             searchController: controller,
             onSearch: () {
@@ -90,6 +95,9 @@ class _JsonListViewState extends ConsumerState<JsonListView> {
                   : JsonItems(
                       jsonList: _searchedList ?? _list,
                       onTap: _i.onTap,
+                      itemCount: _searchedList?.length == 0
+                          ? _list?.length
+                          : _searchedList?.length,
                     );
             },
           ),

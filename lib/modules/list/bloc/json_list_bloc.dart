@@ -24,8 +24,9 @@ class JsonListBloc extends CoreServiceBloc<JsonListEvent, JsonListState> {
 
         /// search current list for the provided title
         /// and return the new list with the found items
-        final newList =
-            list?.where((item) => item.title!.contains(event.title!)).toList();
+        final newList = list
+            ?.where((item) => item.title?.contains(event.title ?? '') == true)
+            .toList();
 
         emit((state as JsonListStateLoaded).copyWith(searchedList: newList));
       },

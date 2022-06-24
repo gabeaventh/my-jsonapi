@@ -20,8 +20,12 @@ class JsonItems extends HookConsumerWidget {
     return Container(
       width: MediaQuery.of(context).size.width * 0.55,
       child: ListView.builder(
+        itemCount: itemCount ?? jsonList?.length,
         itemBuilder: (context, index) {
           return TextButton(
+            key: jsonList?[index].id == null
+                ? null
+                : Key('item-${jsonList?[index].id}'),
             onPressed: () => onTap(jsonList?[index]),
             child: Text(
               '${jsonList?[index].title}',
