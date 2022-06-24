@@ -55,16 +55,19 @@ jobs:
       - uses: subosito/flutter-action@v1
         with:
           channel: ${{env.FLUTTER_CHANNEL}}
-      - run: |
-          flutter pub get
-          flutter build web --release
-          cd build/web
-          git init
-          git config --global user.email gabeaventh@gmail.com
-          git config --global user.name gabeaventh
-          git status
-          git remote add origin https://${{ secrets.ACCESS_TOKEN }}@github.com/gabeaventh/my-jsonapi.git #change to your path
-          git checkout -b gh-pages
-          git add --all
-          git commit -m "Deploy ${{ steps.date.outputs.date }}"
-          git push origin gh-pages -f
+      - uses: bluefireteam/flutter-gh-pages@v7
+        with:
+          baseHref: /web/
+      # - run: |
+      #     flutter pub get
+      #     flutter build web --release
+      #     cd build/web
+      #     git init
+      #     git config --global user.email gabeaventh@gmail.com
+      #     git config --global user.name gabeaventh
+      #     git status
+      #     git remote add origin https://${{ secrets.ACCESS_TOKEN }}@github.com/gabeaventh/my-jsonapi.git #change to your path
+      #     git checkout -b gh-pages
+      #     git add --all
+      #     git commit -m "Deploy ${{ steps.date.outputs.date }}"
+      #     git push origin gh-pages -f
