@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:jsonapi/modules/detail/bloc/json_detail_bloc.dart';
+import 'package:jsonapi/modules/detail/services/services.dart';
 import 'package:jsonapi/modules/list/bloc/json_list_bloc.dart';
 import 'package:jsonapi/modules/list/services/services.dart';
 
@@ -9,5 +11,7 @@ class AppBinding implements Bindings {
   void dependencies() {
     Get.lazyPut<JsonListService>(JsonListService.new);
     Get.lazyPut<JsonListBloc>(JsonListBloc.new);
+    Get.lazyPut<JsonDetailService>(JsonDetailService.new);
+    Get.lazyPut<JsonDetailBloc>(JsonDetailBloc.new);
   }
 }

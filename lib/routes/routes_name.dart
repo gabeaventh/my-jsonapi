@@ -1,6 +1,6 @@
 abstract class Routes {
   static const String LIST = _Paths.LIST;
-  static const String DETAIL = LIST +_Paths.DETAIL;
+  static const String DETAIL = LIST + _Paths.DETAIL;
 }
 
 abstract class _Paths {

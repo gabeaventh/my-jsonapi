@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:get/get.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:jsonapi/models/json_detail.dart';
 import 'package:jsonapi/modules/list/bloc/json_list_bloc.dart';
 import 'package:jsonapi/modules/list/components/list_items.dart';
 import 'package:jsonapi/modules/list/components/search_bar.dart';
 import 'package:jsonapi/modules/list/initiator.dart';
-import 'package:jsonapi/routes/routes_name.dart';
 
 class JsonListView extends StatefulHookConsumerWidget {
   const JsonListView({Key? key}) : super(key: key);
@@ -41,6 +39,7 @@ class _JsonListViewState extends ConsumerState<JsonListView> {
       appBar: AppBar(
         centerTitle: true,
         title: Text('MY JSON API APP'),
+        automaticallyImplyLeading: false,
         toolbarHeight: 110,
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(kToolbarHeight),
@@ -71,21 +70,26 @@ class _JsonListViewState extends ConsumerState<JsonListView> {
               if (state is JsonListStateLoaded) {
                 _list = state.list;
                 _searchedList = state.searchedList;
+
+                if (isSearching.value && _searchedList?.isEmpty == true) {
+                  return Center(
+                    child: Text('No results found'),
+                  );
+                }
               }
 
-              if (state is JsonListStateLoaded &&
-                  isSearching.value &&
-                  _searchedList?.isEmpty == true) {
-                return Center(
-                  child: Text('No results found'),
-                );
+              /// for some reasons this condition causing
+              /// the apps to be freezed
+              /// when it placed inside [JsonItems] class
+              if (_list?.isEmpty == true) {
+                return Container();
               }
 
               return state is JsonListStateLoading
                   ? CircularProgressIndicator()
                   : JsonItems(
                       jsonList: _searchedList ?? _list,
-                      onTap: (jsonDetail) => Get.toNamed(Routes.DETAIL),
+                      onTap: _i.onTap,
                     );
             },
           ),

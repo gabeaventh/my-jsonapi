@@ -35,8 +35,8 @@ class JsonListBloc extends CoreServiceBloc<JsonListEvent, JsonListState> {
     on<JsonListEventLoad>(
       ((event, emit) async {
         emit(JsonListState.loading());
-        var currentState = await _service.loadJsonApi().then((result) {
-          return result.fold(
+        await _service.loadJsonApi().then((result) {
+          emit(result.fold(
             (result) {
               final response =
                   JsonList.fromJson(jsonEncode(result.response ?? {})).jsonList;
@@ -46,9 +46,8 @@ class JsonListBloc extends CoreServiceBloc<JsonListEvent, JsonListState> {
               );
             },
             (error) => JsonListState.error(error: error),
-          );
+          ));
         });
-        emit(currentState);
       }),
     );
   }
